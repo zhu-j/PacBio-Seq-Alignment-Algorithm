@@ -8,20 +8,27 @@ from Bio import SeqIO
 import numpy as np
 
 
-def k_mer(sequence, k):
-    size = len(sequence)-3+1
-    output = []
+'''
+k_mer(read, k) returns a dictionary of k_mers of the 
+input read with key being the index of k_mer and value being the k_mer
+'''
+def k_mer(read, k):
+    size = len(read)-3+1
+    output = {}
     for i in range(size-1):
-        k_mer = sequence[i:k+i]
-        output.append(k_mer)
+        k_mer = read[i:k+i]
+        output[i] = k_mer
         print(i, k_mer)
     return output
         
-def parser():
+'''
+parser function to extract all reads from fasta file
+and store into a list
+'''
+def parser(path):
     sequences = [] 
-    for record in SeqIO.parse("readsMappingToChr1.fa.txt", "fasta"):
-        sequences.append(record)
+    for record in SeqIO.parse(path, "fasta"):
+        read=str(record.seq)
+        sequences.append(read)
+    return sequences
 
-
-s="GTAGAGCTGT "
-out=k_mer(s, 3)
