@@ -1,1 +1,2 @@
-# comp561-project
+# comp561-project-F22
+# PacBio reads
