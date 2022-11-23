@@ -18,7 +18,6 @@ def k_mer(read, k):
     for i in range(size-1):
         k_mer = read[i:k+i]
         output[i] = k_mer
-        print(i, k_mer)
     return output
         
 '''
@@ -32,3 +31,12 @@ def parser(path):
         sequences.append(read)
     return sequences
 
+def kers_for_all_reads(reads):
+    kmers = {}
+    for index, read in enumerate(reads):
+        kmers[index]=k_mer(read,3)
+    return kmers
+
+path="C:/Users/Connie/comp561-project/readsMappingToChr1.fa.txt"
+reads=parser(path)
+d=kers_for_all_reads(reads)
