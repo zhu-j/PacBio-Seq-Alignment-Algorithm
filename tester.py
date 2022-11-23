@@ -39,13 +39,13 @@ for index,read in enumerate(SeqIO.parse("readsMappingToChr1.fa.txt", "fasta")):
     pair_s_e = list_s_e[0]
     start_end = pair_s_e.split(",")
     dict_reads[(index,str(read.seq))] = start_end
-    break
+    print(index)
 with open('test_case.txt', 'wb') as txt_file:
     txt_file.write(pickle.dumps(dict_reads))
 
 #find pairs of read that corresponds to same genomic region
 #code doesn't work right now
-dict_altered = dict_reads
+"""dict_altered = dict_reads
 read_i = ""
 read_pairs = []
 for key,value in dict_reads.items():
@@ -54,4 +54,4 @@ for key,value in dict_reads.items():
     continue
     if (value == search_region):
         (i,j) = (read_i, key[1])
-        read_pairs.append(i,j)
+        read_pairs.append(i,j)"""
