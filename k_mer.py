@@ -31,12 +31,11 @@ def parser(path):
         sequences.append(read)
     return sequences
 
-def kers_for_all_reads(reads):
+def kmers_for_all_reads(reads):
     kmers = {}
     for index, read in enumerate(reads):
         kmers[index]=k_mer(read,3)
     return kmers
 
-path="C:/Users/Connie/comp561-project/readsMappingToChr1.fa.txt"
 reads=parser(path)
-d=kers_for_all_reads(reads)
+d=kmers_for_all_reads(reads)
