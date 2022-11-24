@@ -37,5 +37,6 @@ def kmers_for_all_reads(reads):
         kmers[index]=k_mer(read,3)
     return kmers
 
-reads=parser(path)
-d=kmers_for_all_reads(reads)
+path='readsMappingToChr1.fa.txt'
+R=parser(path)
+S=kmers_for_all_reads(R)
