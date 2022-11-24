@@ -18,6 +18,7 @@ from Bio import SeqIO
 from Bio.Blast.Applications import NcbiblastnCommandline
 from Bio.Blast import NCBIWWW
 import _pickle as pickle
+
 seq_iterator = SeqIO.parse("genomic.fna.txt", "fasta")
 chromosome_1 = next(seq_iterator)
 
@@ -44,9 +45,17 @@ def generate_dict():
         txt_file.write(pickle.dumps(dict_reads))
 
 #find pairs of read that corresponds to same genomic region
-file = open("test_case.txt",'rb')
-dict_reads = pickle.load(file)
-#dict_altered = dict_reads
+
+#open txt file with read and corresponding genomic region
+#run the function for generating such txt file if file not found
+try:
+    file = open("test_case.txt",'rb')
+    dict_reads = pickle.load(file)
+except FileNotFoundError:
+    generate_dict()
+    file = open("test_case.txt", 'rb')
+    dict_reads = pickle.load(file)
+
 read_i = ""
 read_pairs = []
 counter = 0
@@ -58,6 +67,8 @@ for key,value in dict_reads.items():
         if (v[0] == search_region[0] and v[1] == search_region[1]):
             (i,j) = (read_i, k)
             read_pairs.append((i,j))
+
+#write ground truth to txt file
 with open('true_pairs.txt', 'wb') as txt_file:
     txt_file.write(pickle.dumps(read_pairs))
 file.close()
