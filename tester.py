@@ -64,11 +64,12 @@ for key,value in dict_reads.items():
     for k,v in dict_reads.items():
         search_region = value
         read_i = key
-        if (v[0] == search_region[0] and v[1] == search_region[1]):
+        if (v[0] <= search_region[1] and v[1] >= search_region[0]): #need fixing
             (i,j) = (read_i, k)
             read_pairs.append((i,j))
-
+    print(key[0])
 #write ground truth to txt file
+print(read_pairs)
 with open('true_pairs.txt', 'wb') as txt_file:
     txt_file.write(pickle.dumps(read_pairs))
 file.close()
