@@ -48,8 +48,8 @@ def kmerDict(D):
             # if kmer in Dict, append its corresponding readID and kmer index
             if kmer in D1:
                 # append readID if not been added
-                if read not in D1[kmer]:
-                    D1[kmer].append(read)
+                D1[kmer].append(read)
+                if read not in D2[kmer]:
                     D2[kmer] = {read: [index]}
                 # if readID added, but not kmer index, add kmer index
                 else:
