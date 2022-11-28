@@ -58,16 +58,23 @@ def kmerDict(D):
                 D1[kmer] = [read]
                 D2[kmer] = {read:[index]}
     return D1, D2
-                
-# Generate a common kmers frequency dictionary where key is read pairs and value is number of common kmers
-def kmerFreqPerPair(D):
+    
+'''
+Generate a common kmers frequency dictionary where 
+key is read pairs and value is number of common kmers
+read pair where common kmers < some threshold is removed
+'''    
+def kmerFreqPerPair(D,s):
     FrequencyTable = pair(1, 1056)
     for kmer in D.keys():
         # readID are stored in Dict in oder
         pairs = pair(D[kmer][0], D[kmer][-1]+1)
         for p in pairs.keys():
+            print(p)
             FrequencyTable[p]+=1
-    return FrequencyTable
+    # remove readIDs whose common kmers is < some threshold
+    return {key : val for key, val in FrequencyTable.items() if val > s}
+   
                           
 # function to generate all possible pairs between two numbers n1, n2
 def pair(n1, n2):
