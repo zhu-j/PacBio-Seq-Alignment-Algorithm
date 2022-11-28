@@ -24,9 +24,10 @@ def parser(path):
     return sequences
 
 '''
-Generate kmers of size k for all reads, in order
-function returns a dicti where key is readId and value is
-another dict with key being index, value being kmers
+Generate kmers dictionary where key is kmer, value is
+list of readIDs
+D1 = {kmer:readID}
+D2 = {kmer:{readID:[kmer_position]}}
 '''
 def kmers_for_all_reads(reads, k):
     kmers = {}
