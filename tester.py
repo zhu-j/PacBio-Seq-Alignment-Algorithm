@@ -18,6 +18,7 @@ from Bio import SeqIO
 from Bio.Blast.Applications import NcbiblastnCommandline
 from Bio.Blast import NCBIWWW
 import _pickle as pickle
+import math
 
 seq_iterator = SeqIO.parse("genomic.fna.txt", "fasta")
 chromosome_1 = next(seq_iterator)
@@ -64,10 +65,13 @@ for key,value in dict_reads.items():
     for k,v in dict_reads.items():
         search_region = value
         read_i = key
-        if (v[0] <= search_region[1] and v[1] >= search_region[0]): #need fixing
-            (i,j) = (read_i, k)
-            read_pairs.append((i,j))
-    print(key[0])
+        if(k != read_i):
+            diff_start = abs(int(v[0]) - int(search_region[0]))
+            diff_end = abs(int(v[1]) - int(search_region[1]))
+            mid_length = math.ceil((int(search_region[1]) - int(search_region[0]))/2)
+            if (diff_start + diff_end <= mid_length): #need fixing
+                (i,j) = (read_i, k)
+                read_pairs.append((i,j))
 #write ground truth to txt file
 print(read_pairs)
 with open('true_pairs.txt', 'wb') as txt_file:
