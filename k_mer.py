@@ -66,12 +66,14 @@ read pair where common kmers < some threshold is removed
 '''    
 def kmerFreqPerPair(D,s):
     FrequencyTable = pair(1, 1056)
+    index = 0
     for kmer in D.keys():
         # readID are stored in Dict in oder
         pairs = pair(D[kmer][0], D[kmer][-1]+1)
         for p in pairs.keys():
-            print(p)
+            print(index)
             FrequencyTable[p]+=1
+            index+=1
     # remove readIDs whose common kmers is < some threshold
     return {key : val for key, val in FrequencyTable.items() if val > s}
    
@@ -96,7 +98,7 @@ path='readsMappingToChr1.fa.txt'
 R=parser(path)
 S=kmers_for_all_reads(R, 10)
 D1, D2=kmerDict(S) 
-D = kmerFreqPerPair(D1) 
+D = kmerFreqPerPair(D1,1)
 
 
 
