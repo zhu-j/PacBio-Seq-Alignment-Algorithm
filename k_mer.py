@@ -83,13 +83,14 @@ def pair(n1, n2):
     p = np.mgrid[n1:n2,n1:n2]
     p = np.rollaxis(p,0,3)        
     p = p.reshape(((n2-1)*(n2-1), 2))
-    p = p[p[:,0] != p[:,1]]
+    p = p[p[:,0] != p[:,1]] # remove pair of the same ID
     for index in range(p.shape[0]):
-        key = str(p[index][0])+str(p[index][1])
+        forward_key = str(p[index][0])+str(p[index][1])
+        reversed_key = str(p[index][1])+str(p[index][0])
         # remove reversed duplicates
-        if key not in pairDict and key[::-1] not in pairDict:
-            pairDict[key] = key   
-    return pairDict, p
+        if forward_key not in pairDict and reversed_key not in pairDict:
+            pairDict[forward_key] = 0  
+    return pairDict
 
 path='readsMappingToChr1.fa.txt'
 R=parser(path)
