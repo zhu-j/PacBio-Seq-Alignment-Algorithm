@@ -24,9 +24,10 @@ def parser(path):
     return sequences
 
 '''
-Generate kmers of size k for all reads, in order
-function returns a dicti where key is readId and value is
-another dict with key being index, value being kmers
+Generate kmers dictionary where key is kmer, value is
+list of readIDs
+D1 = {kmer:readID}
+D2 = {kmer:{readID:[kmer_position]}}
 '''
 def kmers_for_all_reads(reads, k):
     kmers = {}
@@ -47,8 +48,8 @@ def kmerDict(D):
             # if kmer in Dict, append its corresponding readID and kmer index
             if kmer in D1:
                 # append readID if not been added
-                if read not in D1[kmer]:
-                    D1[kmer].append(read)
+                D1[kmer].append(read)
+                if read not in D2[kmer]:
                     D2[kmer] = {read: [index]}
                 # if readID added, but not kmer index, add kmer index
                 else:
@@ -57,16 +58,23 @@ def kmerDict(D):
                 D1[kmer] = [read]
                 D2[kmer] = {read:[index]}
     return D1, D2
-                
-# Generate a common kmers frequency dictionary where key is read pairs and value is number of common kmers
-def kmerFreqPerPair(D):
+    
+'''
+Generate a common kmers frequency dictionary where 
+key is read pairs and value is number of common kmers
+read pair where common kmers < some threshold is removed
+'''    
+def kmerFreqPerPair(D,s):
     FrequencyTable = pair(1, 1056)
     for kmer in D.keys():
         # readID are stored in Dict in oder
         pairs = pair(D[kmer][0], D[kmer][-1]+1)
         for p in pairs.keys():
+            print(p)
             FrequencyTable[p]+=1
-    return FrequencyTable
+    # remove readIDs whose common kmers is < some threshold
+    return {key : val for key, val in FrequencyTable.items() if val > s}
+   
                           
 # function to generate all possible pairs between two numbers n1, n2
 def pair(n1, n2):
@@ -78,8 +86,10 @@ def pair(n1, n2):
     p = p[p[:,0] != p[:,1]]
     for index in range(p.shape[0]):
         key = str(p[index][0])+str(p[index][1])
-        pairDict[key] = 0
-    return pairDict
+        # remove reversed duplicates
+        if key not in pairDict and key[::-1] not in pairDict:
+            pairDict[key] = key   
+    return pairDict, p
 
 path='readsMappingToChr1.fa.txt'
 R=parser(path)
