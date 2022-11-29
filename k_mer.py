@@ -1,27 +1,49 @@
 from Bio import SeqIO
 import numpy as np
+
 '''
 k_mer(read, k) returns a dictionary of k_mers of the 
 input read with key being the index of k_mer and value being the k_mer
 '''
+
+
 def k_mer(read, k):
-    size = len(read)-k+1
+    size = len(read) - k + 1
     output = {}
-    for i in range(size-1):
-        k_mer = read[i:k+i]
+    for i in range(size - 1):
+        k_mer = read[i:k + i]
         output[i] = k_mer
     return output
-        
+
+
 '''
 parser function to extract all reads from fasta file
 and store into a list
 '''
+
+
 def parser(path):
-    sequences = [] 
+    sequences = []
     for record in SeqIO.parse(path, "fasta"):
-        read=str(record.seq)
+        read = str(record.seq)
         sequences.append(read)
     return sequences
+
+
+'''
+Generate kmers of size k for all reads, in order
+function returns a dicti where key is readId and value is
+another dict with key being index, value being kmers
+'''
+
+
+def kmers_for_all_reads(reads, k):
+    kmers = {}
+    for index, read in enumerate(reads):
+        # readID starts at 1
+        kmers[index + 1] = k_mer(read, k)
+    return kmers
+
 
 '''
 Generate kmers dictionary where key is kmer, value is
@@ -29,17 +51,8 @@ list of readIDs
 D1 = {kmer:readID}
 D2 = {kmer:{readID:[kmer_position]}}
 '''
-def kmers_for_all_reads(reads, k):
-    kmers = {}
-    for index, read in enumerate(reads):
-        # readID starts at 1
-        kmers[index+1]=k_mer(read,k)
-    return kmers
 
-'''
-Generate kmers dictionary where key is kmer, value is
-list of readIDs
-'''
+
 def kmerDict(D):
     D1 = {}
     D2 = {}
@@ -56,50 +69,39 @@ def kmerDict(D):
                     D2[kmer][read].append(index)
             else:
                 D1[kmer] = [read]
-                D2[kmer] = {read:[index]}
+                D2[kmer] = {read: [index]}
     return D1, D2
-    
-'''
-Generate a common kmers frequency dictionary where 
-key is read pairs and value is number of common kmers
-read pair where common kmers < some threshold is removed
-'''    
-def kmerFreqPerPair(D,s):
+
+
+# Generate a common kmers frequency dictionary where key is read pairs and value is number of common kmers
+def kmerFreqPerPair(D, s):
     FrequencyTable = pair(1, 1056)
     index = 0
     for kmer in D.keys():
-        # readID are stored in Dict in oder
-        pairs = pair(D[kmer][0], D[kmer][-1]+1)
+        L = D[kmer]  # readIDs list of this kmer
+        pairs = pair(D[kmer][0], D[kmer][-1] + 1)  # all combinaions of pairs from readID list
+        # remove (a,b) or (b,a) where a,b not in L since pair generate all possible pairs
+        for key in pairs.keys():
+            if key not in L:
+                del pairs[key]
         for p in pairs.keys():
             print(index)
-            FrequencyTable[p]+=1
-            index+=1
+            FrequencyTable[p] += 1
+            index += 1
     # remove readIDs whose common kmers is < some threshold
-    return {key : val for key, val in FrequencyTable.items() if val > s}
-   
-                          
-# function to generate all possible pairs between two numbers n1, n2
+    return {key: val for key, val in FrequencyTable.items() if val > s}
+
+
+# function to generate all combination of pairs between two numbers n1, n2
 def pair(n1, n2):
-    # O(n)
     pairDict = {}
-    p = np.mgrid[n1:n2,n1:n2]
-    p = np.rollaxis(p,0,3)        
-    p = p.reshape(((n2-1)*(n2-1), 2))
-    p = p[p[:,0] != p[:,1]] # remove pair of the same ID
+    p = np.mgrid[n1:n2, n1:n2]
+    p = np.rollaxis(p, 0, 3)
+    p = p.reshape(((n2 - 1) * (n2 - 1), 2))
+    p = p[p[:, 0] != p[:, 1]]
     for index in range(p.shape[0]):
-        forward_key = str(p[index][0])+str(p[index][1])
-        reversed_key = str(p[index][1])+str(p[index][0])
-        # remove reversed duplicates
+        forward_key = str(p[index][0]) + " " + str(p[index][1])
+        reversed_key = str(p[index][1]) + " " + str(p[index][0])
         if forward_key not in pairDict and reversed_key not in pairDict:
-            pairDict[forward_key] = 0  
+            pairDict[forward_key] = 0
     return pairDict
-
-path='readsMappingToChr1.fa.txt'
-R=parser(path)
-S=kmers_for_all_reads(R, 10)
-D1, D2=kmerDict(S) 
-D = kmerFreqPerPair(D1,1)
-
-
-
-
