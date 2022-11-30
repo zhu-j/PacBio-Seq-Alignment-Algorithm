@@ -64,7 +64,7 @@ def kmerDict(D):
                 
 # Generate a common kmers frequency dictionary where key is read pairs and value is number of common kmers
 def kmerFreqPerPair(D,s):
-    table = np.arnage(1, 1056, 1) 
+    table = np.arange(1, 1056, 1) 
     FrequencyList= combinations(table, 2)
     FrequencyTable = dict.fromkeys(FrequencyList, 0)
     index = 0
