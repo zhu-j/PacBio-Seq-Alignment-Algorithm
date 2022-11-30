@@ -4,7 +4,7 @@ for file in $(echo *.csv); do
     gnuplot <<EOF
     set terminal pngcairo color
     set output "/Users/jessicazhu/kmer_png_plot/output_${file}.png"
-    set key outside
+    set key bottom right
     set xlabel "k"
     set ylabel "kmer count"
     set datafile separator ','  #csv file
