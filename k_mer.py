@@ -51,7 +51,8 @@ def kmerDict(D):
             # if kmer in Dict, append its corresponding readID and kmer index
             if kmer in D1:
                 # append readID if not been added
-                D1[kmer].append(read)
+                if read not in D1[kmer]:
+                    D1[kmer].append(read)
                 if read not in D2[kmer]:
                     D2[kmer] = {read: [index]}
                 # if readID added, but not kmer index, add kmer index
@@ -64,12 +65,14 @@ def kmerDict(D):
                 
 # Generate a common kmers frequency dictionary where key is read pairs and value is number of common kmers
 def kmerFreqPerPair(D,s):
-    table = np.arnage(1, 1056, 1) 
+    table = np.arange(1, 1056, 1)
     FrequencyList= combinations(table, 2)
     FrequencyTable = dict.fromkeys(FrequencyList, 0)
     index = 0
     for kmer in D.keys():
         L = D[kmer]
+        #print(kmer)
+        #print(L)
         pairs = list(combinations(L, 2))
         for p in pairs:
             print(index)
@@ -84,4 +87,5 @@ R = parser(path)
 D = kmers_for_all_reads(R, 10)
 D1,D2 = kmerDict(D)
 F = kmerFreqPerPair(D1, 10)
-
+print(F[(1,4)])
+print(len(F.keys()))

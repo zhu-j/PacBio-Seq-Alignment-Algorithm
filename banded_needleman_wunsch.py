@@ -9,12 +9,6 @@ Original file is located at
 
 import numpy as np
 
-def insideBand(i,j,k):
-  if abs(i-j) <= k:
-    return True
-  else:
-     return False
-
 #this function does the banded Needleman-Wunsch alignment
 
 def banded_needleman_wunsch(read1,read2,k,gap_penalty,match_score,mismatch_score):#k is the number of unpenalized nucleotides
@@ -42,9 +36,9 @@ def banded_needleman_wunsch(read1,read2,k,gap_penalty,match_score,mismatch_score
            matrix[i,j]=matrix[i-1,j-1]+match_score
          else:
            matrix[i,j]=matrix[i-1,j-1]+mismatch_score
-         if insideBand(i-1,j,k):
+         if abs((i-1)-j) <= k:
            matrix[i,j]=max(matrix[i,j],matrix[i-1,j]+gap_penalty)
-         if insideBand(i,j-1,k):
+         if abs(i-(j-1)) <= k:
            matrix[i,j]=max(matrix[i,j],matrix[i,j-1]+gap_penalty)
   
   last_columns=list(matrix[:,length_read2])
@@ -68,7 +62,6 @@ def banded_needleman_wunsch(read1,read2,k,gap_penalty,match_score,mismatch_score
     elif a>0 and (matrix[a][b]==matrix[a-1][b]+gap_penalty):
       a-=1
 
-  
   return match
 
 read1=['A','C','C']
