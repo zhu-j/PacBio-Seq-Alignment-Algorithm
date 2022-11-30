@@ -1,5 +1,6 @@
 from Bio import SeqIO
 import numpy as np
+import copy
 '''
 k_mer(read, k) returns a dictionary of k_mers of the 
 input read with key being the index of k_mer and value being the k_mer
@@ -66,11 +67,9 @@ def kmerFreqPerPair(D,s):
     index = 0
     for kmer in D.keys():
         L = D[kmer]
-        pairs = pair(D[kmer][0], D[kmer][-1]+1)
+        all_pairs = pair(D[kmer][0], D[kmer][-1]+1)
         # remove (a,b) where a,b not in pairs since pair generate all possible pairs
-        for key in pairs.keys():
-            if key not in L:
-                del pairs[key]
+        pairs = delete(all_pairs, L)
         for p in pairs.keys():
             print(index)
             FrequencyTable[p]+=1
@@ -93,6 +92,12 @@ def pair(n1, n2):
             pairDict[forward_key] = 0  
     return pairDict
 
+def delete(D, L):
+    D_modified = copy.deepcopy(D)
+    for key in D_modified.keys():
+        if key not in L:
+            del D_modified[key]
+    return D_modified
 
 path = "readsMappingToChr1.fa.txt"
 R = parser(path)
