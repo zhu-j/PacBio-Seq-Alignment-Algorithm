@@ -71,8 +71,6 @@ def kmerFreqPerPair(D,s):
     index = 0
     for kmer in D.keys():
         L = D[kmer]
-        #print(kmer)
-        #print(L)
         pairs = list(combinations(L, 2))
         for p in pairs:
             print(index)
@@ -87,5 +85,3 @@ R = parser(path)
 D = kmers_for_all_reads(R, 10)
 D1,D2 = kmerDict(D)
 F = kmerFreqPerPair(D1, 10)
-print(F[(1,4)])
-print(len(F.keys()))
