@@ -11,7 +11,7 @@ import numpy as np
 
 #this function does the banded Needleman-Wunsch alignment
 
-def banded_needleman_wunsch(read1,read2,k,gap_penalty,match_score,mismatch_score):#k is the number of unpenalized nucleotides
+def banded_needleman_wunsch(read1,read2,X,gap_penalty,match_score,mismatch_score):#X is the number of unpenalized nucleotides
   length_read1=len(read1)
   length_read2=len(read2)
 
@@ -20,25 +20,25 @@ def banded_needleman_wunsch(read1,read2,k,gap_penalty,match_score,mismatch_score
   #Fill the score for the first slot
   #matrix[1,0]=gap_penalty
   matrix[0,0]=0
-  #initilaize the first row and first column within k
-  for i in range(1,k+1):
+  #initilaize the first row and first column within X
+  for i in range(1,X+1):
     matrix[i,0]=gap_penalty*(i)
     #Allow gaps at the beginning of read1
-  for j in range(1,k+1):
+  for j in range(1,X+1):
     matrix[0,j]=0
   
   score=np.zeros(3)
   for i in range(1,length_read1+1):
-    for d in range(-k,k):
+    for d in range(-X,X):
        j=i+d     
        if 1 <= j and j<= length_read2:
          if read1[i-1]==read2[j-1]:
            matrix[i,j]=matrix[i-1,j-1]+match_score
          else:
            matrix[i,j]=matrix[i-1,j-1]+mismatch_score
-         if abs((i-1)-j) <= k:
+         if abs((i-1)-j) <= X:
            matrix[i,j]=max(matrix[i,j],matrix[i-1,j]+gap_penalty)
-         if abs(i-(j-1)) <= k:
+         if abs(i-(j-1)) <= X:
            matrix[i,j]=max(matrix[i,j],matrix[i,j-1]+gap_penalty)
   
   last_columns=list(matrix[:,length_read2])
