@@ -58,8 +58,9 @@ except FileNotFoundError:
     dict_reads = pickle.load(file)
 
 read_i = ""
-read_pairs = []
+#read_pairs = []
 counter = 0
+true_pairs = {}
 
 for key,value in dict_reads.items():
     for k,v in dict_reads.items():
@@ -71,9 +72,11 @@ for key,value in dict_reads.items():
             mid_length = math.ceil((int(search_region[1]) - int(search_region[0]))/2)
             if (diff_start + diff_end <= mid_length): #need fixing
                 (i,j) = (read_i, k)
-                read_pairs.append((i,j))
+                #read_pairs.append((i,j))
+                true_pairs[(key[0], k[0])] = (key[1], k[1]) #store true pairs in a dictionary where key is (read1, read2) and value is (read1_seq, read2_seq)
 #write ground truth to txt file
-print(read_pairs)
+#print(read_pairs)
+print(true_pairs)
 with open('true_pairs.txt', 'wb') as txt_file:
-    txt_file.write(pickle.dumps(read_pairs))
+    txt_file.write(pickle.dumps(true_pairs))
 file.close()
