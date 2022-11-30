@@ -1,6 +1,7 @@
 from Bio import SeqIO
 import numpy as np
 import copy
+from itertools import combinations
 '''
 k_mer(read, k) returns a dictionary of k_mers of the 
 input read with key being the index of k_mer and value being the k_mer
@@ -63,41 +64,20 @@ def kmerDict(D):
                 
 # Generate a common kmers frequency dictionary where key is read pairs and value is number of common kmers
 def kmerFreqPerPair(D,s):
-    FrequencyTable = pair(1, 1056)
+    table = np.arnage(1, 1056, 1) 
+    FrequencyList= combinations(table, 2)
+    FrequencyTable = dict.fromkeys(FrequencyList, 0)
     index = 0
     for kmer in D.keys():
         L = D[kmer]
-        all_pairs = pair(D[kmer][0], D[kmer][-1]+1)
-        # remove (a,b) where a,b not in pairs since pair generate all possible pairs
-        pairs = delete(all_pairs, L)
-        for p in pairs.keys():
+        pairs = list(combinations(L, 2))
+        for p in pairs:
             print(index)
             FrequencyTable[p]+=1
             index+=1
     # remove readIDs whose common kmers is < some threshold
     return {key : val for key, val in FrequencyTable.items() if val > s}
-                          
-# function to generate all possible pairs between two numbers n1, n2
-def pair(n1, n2):
-    # O(n)
-    pairDict = {}
-    p = np.mgrid[n1:n2,n1:n2]
-    p = np.rollaxis(p,0,3)        
-    p = p.reshape(((n2-1)*(n2-1), 2))
-    p = p[p[:,0] != p[:,1]]
-    for index in range(p.shape[0]):
-        forward_key = (p[index][0], p[index][1])
-        reversed_key = (p[index][1], p[index][0])
-        if forward_key not in pairDict and reversed_key not in pairDict:
-            pairDict[forward_key] = 0  
-    return pairDict
 
-def delete(D, L):
-    D_modified = copy.deepcopy(D)
-    for key in D_modified.keys():
-        if key[0] not in L or key[1] not in L:
-            del D_modified[key]
-    return D_modified
 
 path = "readsMappingToChr1.fa.txt"
 R = parser(path)
