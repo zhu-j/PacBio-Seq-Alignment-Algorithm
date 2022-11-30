@@ -86,16 +86,16 @@ def pair(n1, n2):
     p = p.reshape(((n2-1)*(n2-1), 2))
     p = p[p[:,0] != p[:,1]]
     for index in range(p.shape[0]):
-        forward_key = str(p[index][0])+" "+str(p[index][1])
-        reversed_key = str(p[index][1])+" "+str(p[index][0])
-        if forward_key not in pairDict and reversed_key not in pairDict:
+        forward_key = (p[index][0], p[index[1]])
+        reversed_key = (p[index][1], p[index][0])
+        if (forward_key[0]+forward_key[1]) not in pairDict and (reversed_key[0]+reversed_key[1]) not in pairDict:
             pairDict[forward_key] = 0  
     return pairDict
 
 def delete(D, L):
     D_modified = copy.deepcopy(D)
     for key in D_modified.keys():
-        if key not in L:
+        if key[0] not in L or key[1] not in L:
             del D_modified[key]
     return D_modified
 
