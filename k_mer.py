@@ -94,7 +94,7 @@ def pair(n1, n2):
     return pairDict
 
 
-path = "C:/Users/Connie/Desktop/COMP561/comp561-project/readsMappingToChr1.fa.txt"
+path = "readsMappingToChr1.fa.txt"
 R = parser(path)
 D = kmers_for_all_reads(R, 10)
 D1,D2 = kmerDict(D)
