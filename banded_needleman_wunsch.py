@@ -10,8 +10,9 @@ Original file is located at
 import numpy as np
 
 #this function does the banded Needleman-Wunsch alignment
+#X
+def banded_needleman_wunsch(read1,read2,X,gap_penalty,match_score,mismatch_score):
 
-def banded_needleman_wunsch(read1,read2,X,gap_penalty,match_score,mismatch_score):#X is the number of unpenalized nucleotides
   length_read1=len(read1)
   length_read2=len(read2)
 

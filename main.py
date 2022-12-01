@@ -2,8 +2,8 @@
 """
 Created on Wed Nov 30 16:13:44 2022
 """
-from k_mer.py import *
-from banded_needleman_wunsch.py import *
+from k_mer import *
+from banded_needleman_wunsch import *
 import pickle
 
 #1: Generate a table containing kmers (k=10) for all reads
@@ -34,7 +34,8 @@ for pair in kmerCountTable.keys():
     # for overlap over 50% of the longer read sequence, we consider as predicted true read pair
     overlap_threshold = 0.5 * len(max(read1, read2))
     if max(R1R2_align, R2R1_align) > overlap_threshold:
-        readPair[pair] = (read1, read2)
+        readPairs[pair] = (read1, read2)
+        print(pair)
 
 readID_pairs = list(readPairs.keys())
 readSeq_pairs = list(readPairs.values())
@@ -67,7 +68,9 @@ for pair in readPairs.keys():
             incorrect +=1
         else:
             miss +=1
-    
+print(incorrect)
+print(miss)
+print(correct)
 
         
     
