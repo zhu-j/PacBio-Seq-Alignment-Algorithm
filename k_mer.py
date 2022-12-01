@@ -33,8 +33,8 @@ another dict with key being index, value being kmers
 def kmers_for_all_reads(reads, k):
     kmers = {}
     for index, read in enumerate(reads):
-        # readID starts at 1
-        kmers[index+1]=k_mer(read,k)
+        # read ID starts at 0 
+        kmers[index]=k_mer(read,k)
     return kmers
 
 '''
@@ -65,7 +65,7 @@ def kmerDict(D):
                 
 # Generate a common kmers frequency dictionary where key is read pairs and value is number of common kmers
 def kmerFreqPerPair(D,s):
-    table = np.arange(1, 1056, 1)
+    table = np.arange(0, 1055, 1)
     FrequencyList= combinations(table, 2)
     FrequencyTable = dict.fromkeys(FrequencyList, 0)
     index = 0
