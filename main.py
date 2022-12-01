@@ -2,8 +2,8 @@
 """
 Created on Wed Nov 30 16:13:44 2022
 """
-from k_mer.py import *
-from banded_needleman_wunsch.py import *
+from k_mer import *
+from banded_needleman_wunsch import *
 import pickle
 
 #1: Generate a table containing kmers (k=10) for all reads
