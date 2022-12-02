@@ -39,7 +39,7 @@ for pair in kmerCountTable.keys():
 
 readID_pairs = list(readPairs.keys())
 readSeq_pairs = list(readPairs.values())
-print("read sequences of the same origin: ", readSeq_pairs)
+print("sequencing reads of the same origin: ", readSeq_pairs)
 
 # store the read pairs found by alignment 
 with open('pred_pairs.pickle', 'wb') as handle:
@@ -53,7 +53,7 @@ miss = 0
 correct = 0
 incorrect = 0
 total_readPairs = len(readPairs.keys())
-total_truePairs = len(truePairs)    
+total_truePairs = len(truePairs.keys()) # truePairs = {(R1,R2): (R1 seq, R2 seq)}
 
 for pair in truePairs.keys():
     if pair in readPairs.keys() or (pair[1], pair[0]) in readPairs:
