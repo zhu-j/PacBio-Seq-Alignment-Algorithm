@@ -16,7 +16,7 @@ kmerTable = kmers_for_all_reads(R, k)
 kmerDict, kmerDictWithIndex = kmerDict(kmerTable)
 
 # 2: Generate a common-kmers count table for all read pairs
-s = 50
+s = 1500
 kmerCountTable = kmerFreqPerPair(kmerDict, s)
 
 # 3 For all read pairs with common-kmer counts > some threshold, we perform alignment
