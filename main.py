@@ -8,18 +8,18 @@ import _pickle as pickle
 import pickle as pk
 import ast
 
-# 1: Generate a table containing kmers (k=10) for all reads
-path = "readsMappingToChr1.fa.txt"
-R = parser(path)
-k = 10
-kmerTable = kmers_for_all_reads(R, k)
-kmerDict, kmerDictWithIndex = kmerDict(kmerTable)
+#1: load list of sequencing reads
+with open('reads_list.txt', 'rb') as handle:
+    data = handle.read()
+R = pk.loads(data)
 
-# 2: Generate a common-kmers count table for all read pairs
-s = 1500
-kmerCountTable = kmerFreqPerPair(kmerDict, s)
+#2: load common-kmer table 
+with open('kmerCountTable_threshold1500.txt', 'rb') as handle:
+    data = handle.read()
+kmerCountTable = pk.loads(data)
 
-# 3 For all read pairs with common-kmer counts > some threshold, we perform alignment
+
+#3: For all read pairs with common-kmer counts > some threshold, we perform alignment
 readPairs = {}
 for pair in kmerCountTable.keys():
     read1 = R[pair[0]]
@@ -27,6 +27,7 @@ for pair in kmerCountTable.keys():
     L1 = len(read1)
     L2 = len(read2)
     common_kmer = kmerCountTable[pair]
+    k = 10
     X = (L1 - (common_kmer + k)) + (L2 - (common_kmer + k))  # maximum possible of gaps
     gap_penalty = -1
     match_score = +1
