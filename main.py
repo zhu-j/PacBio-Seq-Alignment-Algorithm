@@ -47,7 +47,7 @@ with open('read_pairs.txt', 'wb') as file:
     file.write(pickle.dumps(readPairs))
 
 # evaluate how many read pairs were correctly found
-with open("true_pairs.txt", "r") as data:
+with open("true_pairs.txt", "rb") as data:
     truePairs = ast.literal_eval(data.read())
 
 miss = 0
