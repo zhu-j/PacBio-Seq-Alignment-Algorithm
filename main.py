@@ -5,6 +5,7 @@ Created on Wed Nov 30 16:13:44 2022
 from k_mer import *
 from banded_needleman_wunsch import *
 import _pickle as pickle
+import pickle as pk
 import ast
 
 #1: Generate a table containing kmers (k=10) for all reads
