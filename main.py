@@ -7,6 +7,7 @@ from banded_needleman_wunsch import *
 import _pickle as pickle
 import pickle as pk
 import ast
+import time
 
 #1: load list of sequencing reads
 with open('reads_list.txt', 'rb') as handle:
@@ -18,7 +19,7 @@ with open('kmerCountTable_threshold1500.txt', 'rb') as handle:
     data = handle.read()
 kmerCountTable = pk.loads(data)
 
-
+start = time.time()
 #3: For all read pairs with common-kmer counts > some threshold, we perform alignment
 readPairs = {}
 for pair in kmerCountTable.keys():
@@ -38,14 +39,19 @@ for pair in kmerCountTable.keys():
     overlap_threshold = 0.5 * max(L1, L2)
     if max(R1R2_align, R2R1_align) > overlap_threshold:
         readPairs[pair] = (read1, read2)
-
+    print("one pass")
 readID_pairs = list(readPairs.keys())
 readSeq_pairs = list(readPairs.values())
 print("sequencing reads of the same origin: ", readSeq_pairs)
-
+end = time.time()
+duration = end - start
+print(duration)
 # store the read pairs found by alignment
 with open('read_pairs.txt', 'wb') as file:
     file.write(pickle.dumps(readPairs))
+
+with open('read_p.txt') as output:
+    pickle.dump(readPairs, output)
 
 # evaluate how many read pairs were correctly found
 with open("true_pairs.txt", "rb") as data:

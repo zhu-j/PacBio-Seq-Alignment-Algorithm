@@ -80,11 +80,11 @@ def kmerFreqPerPair(D,s):
     return {key : val for key, val in FrequencyTable.items() if val > s}
 
 
-path = "readsMappingToChr1.fa.txt"
+"""path = "readsMappingToChr1.fa.txt"
 R = parser(path)
 D = kmers_for_all_reads(R, 10)
 D1,D2 = kmerDict(D)
 F = kmerFreqPerPair(D1, 1500)
 print(len(F))
 mean = np.mean(list(F.values()))
-print(mean)
+print(mean)"""

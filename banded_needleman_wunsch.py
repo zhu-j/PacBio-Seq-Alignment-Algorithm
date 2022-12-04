@@ -22,6 +22,7 @@ def banded_needleman_wunsch(read1,read2,X,gap_penalty,match_score,mismatch_score
   #matrix[1,0]=gap_penalty
   matrix[0,0]=0
   #initilaize the first row and first column within X
+  print("alignment start")
   for i in range(1,length_read1+1):
     matrix[i,0]=gap_penalty*(i)
     #Allow gaps at the beginning of read1
@@ -42,7 +43,7 @@ def banded_needleman_wunsch(read1,read2,X,gap_penalty,match_score,mismatch_score
          if abs(i-(j-1)) <= X:
            matrix[i,j]=max(matrix[i,j],matrix[i,j-1]+gap_penalty)
   
-  last_columns=list(matrix[:length_read2+1])
+  last_columns=list(matrix[:,length_read2])
   optimal_score=max(last_columns)
   starting=last_columns.index(optimal_score)
   match=0
@@ -50,7 +51,7 @@ def banded_needleman_wunsch(read1,read2,X,gap_penalty,match_score,mismatch_score
   b=len(read2)
   print(matrix)
   score=matrix[starting][b]
-  while(a>0 or b>0):
+  while(a>0):
     if a>0 and b>0 and ((matrix[a][b] == matrix[a-1][b-1]+match_score) or (matrix[a][b]==matrix[a-1][b-1]+mismatch_score)):
       if matrix[a][b]==matrix[a-1][b-1]+match_score and read1[a-1]==read2[b-1]:
         match +=1
@@ -62,7 +63,7 @@ def banded_needleman_wunsch(read1,read2,X,gap_penalty,match_score,mismatch_score
       b-=1
     elif a>0 and (matrix[a][b]==matrix[a-1][b]+gap_penalty):
       a-=1
-
+  print("traceback ended")
   return match
 
 """read1=['A','C','C']
