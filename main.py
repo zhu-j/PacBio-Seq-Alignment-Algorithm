@@ -53,16 +53,16 @@ with open('duration.txt', 'w') as f:
 print(duration)
 # store the read pairs found by alignment
 with open('read_id.txt', 'wb') as out_file:
-    pickle.dump(readID_pairs, out_file)
+    pickle.dump(readID_pairs, out_file,protocol=pickle.HIGHEST_PROTOCOL)
 
 with open('read_seq_value.txt', 'wb') as o:
-    pickle.dump(readID_pairs, o)
+    pickle.dump(readID_pairs, o,protocol=pickle.HIGHEST_PROTOCOL)
 
 with open('read_p.txt', 'wb') as output:
-    pickle.dump(readPairs, output)
+    pickle.dump(readPairs, output,protocol=pickle.HIGHEST_PROTOCOL)
 
 with open('read_pairs.txt', 'wb') as file:
-    file.write(pickle.dumps(readPairs))
+    file.write(pickle.dumps(readPairs, protocol=pickle.HIGHEST_PROTOCOL))
 
 
 
