@@ -37,9 +37,10 @@ for pair in kmerCountTable.keys():
     R2R1_align = banded_needleman_wunsch(read2, read1, X, gap_penalty, match_score, mismatch_score)
     # for overlap over 50% of the longer read sequence, we consider as this pair as coming from same region in genome
     overlap_threshold = 0.5 * max(L1, L2)
-    if max(R1R2_align, R2R1_align) > overlap_threshold:
-        readPairs[pair] = (read1, read2)
+    #if max(R1R2_align, R2R1_align) > overlap_threshold:
+    readPairs[pair] = (read1, read2)
     print("one pass")
+    break
 
 readID_pairs = list(readPairs.keys())
 readSeq_pairs = list(readPairs.values())
@@ -53,16 +54,16 @@ with open('duration.txt', 'w') as f:
 print(duration)
 # store the read pairs found by alignment
 with open('read_id.txt', 'wb') as out_file:
-    pickle.dump(readID_pairs, out_file,protocol=pickle.HIGHEST_PROTOCOL)
+    pk.dump(readID_pairs, out_file, protocol=pickle.HIGHEST_PROTOCOL)
 
 with open('read_seq_value.txt', 'wb') as o:
-    pickle.dump(readID_pairs, o,protocol=pickle.HIGHEST_PROTOCOL)
+    pk.dump(readID_pairs, o, protocol=pickle.HIGHEST_PROTOCOL)
 
 with open('read_p.txt', 'wb') as output:
-    pickle.dump(readPairs, output,protocol=pickle.HIGHEST_PROTOCOL)
+    pk.dump(readPairs, output, protocol=pickle.HIGHEST_PROTOCOL)
 
 with open('read_pairs.txt', 'wb') as file:
-    file.write(pickle.dumps(readPairs, protocol=pickle.HIGHEST_PROTOCOL))
+    file.write(pk.dumps(readPairs, protocol=pickle.HIGHEST_PROTOCOL))
 
 
 
