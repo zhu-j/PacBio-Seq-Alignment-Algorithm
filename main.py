@@ -45,6 +45,9 @@ readSeq_pairs = list(readPairs.values())
 print("sequencing reads of the same origin: ", readSeq_pairs)
 end = time.time()
 duration = end - start
+with open('duration.txt', 'w') as f:
+    f.write('running_time = ' + str(duration) + '\n')
+
 print(duration)
 # store the read pairs found by alignment
 with open('read_pairs.txt', 'wb') as file:
