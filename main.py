@@ -40,6 +40,7 @@ for pair in kmerCountTable.keys():
     if max(R1R2_align, R2R1_align) > overlap_threshold:
         readPairs[pair] = (read1, read2)
     print("one pass")
+
 readID_pairs = list(readPairs.keys())
 readSeq_pairs = list(readPairs.values())
 print("sequencing reads of the same origin: ", readSeq_pairs)
@@ -47,14 +48,23 @@ end = time.time()
 duration = end - start
 with open('duration.txt', 'w') as f:
     f.write('running_time = ' + str(duration) + '\n')
-
+    f.write('start = ' + str(start) + '\n')
+    f.write('end = ' + str(end) + '\n')
 print(duration)
 # store the read pairs found by alignment
+with open('read_id.txt', 'wb') as out_file:
+    pickle.dump(readID_pairs, out_file)
+
+with open('read_seq_value.txt', 'wb') as o:
+    pickle.dump(readID_pairs, o)
+
+with open('read_p.txt', 'wb') as output:
+    pickle.dump(readPairs, output)
+
 with open('read_pairs.txt', 'wb') as file:
     file.write(pickle.dumps(readPairs))
 
-with open('read_p.txt') as output:
-    pickle.dump(readPairs, output)
+
 
 # evaluate how many read pairs were correctly found
 with open("true_pairs.txt", "rb") as data:
@@ -79,6 +89,14 @@ for pair in readPairs.keys():
             incorrect += 1
         else:
             miss += 1
+
+with open('sensitivity.txt', 'w') as f:
+    f.write('miss = ' + str(miss) + '\n')
+    f.write('incorrect = ' + str(incorrect) + '\n')
+    f.write('correct = ' + str(correct) + '\n')
+    f.write('total pairs = ' + str(total_readPairs) + '\n')
+    f.write('total true pairs = ' + str(total_truePairs) + '\n')
+    f.write(str(msg) + '\n')
 
 
 
