@@ -36,40 +36,41 @@ for pair in kmerCountTable.keys():
     R1R2_align = banded_needleman_wunsch(read1, read2, X, gap_penalty, match_score, mismatch_score)
     R2R1_align = banded_needleman_wunsch(read2, read1, X, gap_penalty, match_score, mismatch_score)
     # for overlap over 50% of the longer read sequence, we consider as this pair as coming from same region in genome
-    overlap_threshold = 0.5 * max(L1, L2)
-    #if max(R1R2_align, R2R1_align) > overlap_threshold:
-    readPairs[pair] = (read1, read2)
+    overlap_threshold = 0.5 * min(L1, L2)
+    if max(R1R2_align, R2R1_align) > overlap_threshold:
+        readPairs[pair] = (read1, read2)
     print("one pass")
-    break
 
 readID_pairs = list(readPairs.keys())
 readSeq_pairs = list(readPairs.values())
 print("sequencing reads of the same origin: ", readSeq_pairs)
 end = time.time()
 duration = end - start
-with open('duration.txt', 'w') as f:
+with open('duration1.txt', 'w') as f:
     f.write('running_time = ' + str(duration) + '\n')
     f.write('start = ' + str(start) + '\n')
     f.write('end = ' + str(end) + '\n')
 print(duration)
 # store the read pairs found by alignment
 with open('read_id.txt', 'wb') as out_file:
-    pk.dump(readID_pairs, out_file, protocol=pickle.HIGHEST_PROTOCOL)
+    pk.dump(readID_pairs, out_file, protocol=pk.HIGHEST_PROTOCOL)
 
 with open('read_seq_value.txt', 'wb') as o:
-    pk.dump(readID_pairs, o, protocol=pickle.HIGHEST_PROTOCOL)
+    pk.dump(readID_pairs, o, protocol=pk.HIGHEST_PROTOCOL)
 
 with open('read_p.txt', 'wb') as output:
-    pk.dump(readPairs, output, protocol=pickle.HIGHEST_PROTOCOL)
+    pk.dump(readPairs, output, protocol=pk.HIGHEST_PROTOCOL)
 
 with open('read_pairs.txt', 'wb') as file:
-    file.write(pk.dumps(readPairs, protocol=pickle.HIGHEST_PROTOCOL))
+    file.write(pk.dumps(readPairs, protocol=pk.HIGHEST_PROTOCOL))
 
 
 
-# evaluate how many read pairs were correctly found
+"""# evaluate how many read pairs were correctly found
 with open("true_pairs.txt", "rb") as data:
-    truePairs = ast.literal_eval(data.read())
+    truePairs = ast.literal_eval(pk.load(data))
+    #truePairs =
+    #print(truePairs)
 
 miss = 0
 correct = 0
@@ -81,7 +82,7 @@ for pair in truePairs.keys():
     if pair in readPairs.keys() or (pair[1], pair[0]) in readPairs:
         correct += 1
 msg = ("Out of {} true pairs, {} were correct".format(total_truePairs, correct))
-print(msg)
+#print(msg)
 
 true = np.unique(list(sum(truePairs.keys())))
 for pair in readPairs.keys():
@@ -91,13 +92,13 @@ for pair in readPairs.keys():
         else:
             miss += 1
 
-with open('sensitivity.txt', 'w') as f:
-    f.write('miss = ' + str(miss) + '\n')
-    f.write('incorrect = ' + str(incorrect) + '\n')
-    f.write('correct = ' + str(correct) + '\n')
-    f.write('total pairs = ' + str(total_readPairs) + '\n')
-    f.write('total true pairs = ' + str(total_truePairs) + '\n')
-    f.write(str(msg) + '\n')
+with open('sensitivity.txt', 'w') as sens:
+    sens.write('miss = ' + str(miss) + '\n')
+    sens.write('incorrect = ' + str(incorrect) + '\n')
+    sens.write('correct = ' + str(correct) + '\n')
+    sens.write('total pairs = ' + str(total_readPairs) + '\n')
+    sens.write('total true pairs = ' + str(total_truePairs) + '\n')
+    sens.write(str(msg) + '\n')"""
 
 
 

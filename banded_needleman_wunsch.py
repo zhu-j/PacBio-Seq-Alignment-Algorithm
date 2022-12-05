@@ -51,7 +51,7 @@ def banded_needleman_wunsch(read1,read2,X,gap_penalty,match_score,mismatch_score
   b=len(read2)
   print(matrix)
   score=matrix[starting][b]
-  while(a>0):
+  while(a>0 or b > 0):
     if a>0 and b>0 and ((matrix[a][b] == matrix[a-1][b-1]+match_score) or (matrix[a][b]==matrix[a-1][b-1]+mismatch_score)):
       if matrix[a][b]==matrix[a-1][b-1]+match_score and read1[a-1]==read2[b-1]:
         match +=1
