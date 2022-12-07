@@ -46,7 +46,7 @@ readSeq_pairs = list(readPairs.values())
 print("sequencing reads of the same origin: ", readSeq_pairs)
 end = time.time()
 duration = end - start
-with open('duration1.txt', 'w') as f:
+with open('duration2.txt', 'w') as f:
     f.write('running_time = ' + str(duration) + '\n')
     f.write('start = ' + str(start) + '\n')
     f.write('end = ' + str(end) + '\n')
