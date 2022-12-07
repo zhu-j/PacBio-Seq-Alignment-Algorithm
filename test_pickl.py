@@ -1,3 +1,3 @@
 import _pickle as pickle
-file = open("readPairs_900.txt", 'rb')
+file = open("read_pairs.txt", 'rb')
 print(pickle.load(file))
