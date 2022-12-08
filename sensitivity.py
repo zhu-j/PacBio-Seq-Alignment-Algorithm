@@ -24,11 +24,11 @@ for pair in readPairs.keys():
             incorrect +=1
         else:
             miss +=1
-    correct_msg = 'correct: {}'.format(correct)
-    incorrect_msg = 'incorrect: {}'.format(incorrect)
-    miss_msg = 'miss: {}'.format(miss)
-    print("total readPairs: {}, total truePairs: {}".format(total_readPairs, total_truePairs))
-    print('correct: {}'.format(correct))
-    print('incorrect: {}'.format(incorrect))
-    print('miss: {}'.format(miss))
-    print('\n')
+correct_msg = 'correct: {}'.format(correct)
+incorrect_msg = 'incorrect: {}'.format(incorrect)
+miss_msg = 'miss: {}'.format(miss)
+print("total readPairs: {}, total truePairs: {}".format(total_readPairs, total_truePairs))
+print('correct: {}'.format(correct))
+print('incorrect: {}'.format(incorrect))
+print('miss: {}'.format(miss))
+print('\n')
