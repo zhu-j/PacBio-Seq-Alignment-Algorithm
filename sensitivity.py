@@ -30,6 +30,7 @@ correct = 0
 wrong_match = 0
 incorrect = 0
 miss = 0
+total_truePairs = len(truePairs.keys()) # truePairs = {(R1,R2): (R1 seq, R2 seq)}
 
 for pair in readPairs.keys():
     reverse = (pair[1], pair[0])
