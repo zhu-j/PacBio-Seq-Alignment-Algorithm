@@ -78,7 +78,7 @@ with open('read_same_origin.txt', 'wb') as file:
     file.write(pk.dumps(readSeq_pairs, protocol=pk.HIGHEST_PROTOCOL))
 
 
-
+"""
 # evaluate how many read pairs were correctly found
 with open("true_pairs.txt", "rb") as data:
     truePairs = ast.literal_eval(pk.load(data))

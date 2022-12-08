@@ -1,0 +1,6 @@
+total truePairs: 1708
+total readPairs: 129
+correct: 38
+wrong match: 30
+incorrect: 61
+miss: 1670
