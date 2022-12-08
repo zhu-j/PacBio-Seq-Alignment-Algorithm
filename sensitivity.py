@@ -1,3 +1,7 @@
+with open('read_pairs.txt', 'rb') as handle:
+    data = handle.read()
+readPairs = handle.read()
+truePairs = pickle.loads(data)
 with open('true_pairs.txt', 'rb') as handle:
     data = handle.read()
 truePairs = pickle.loads(data)
@@ -12,9 +16,6 @@ incorrect = 0
 total_readPairs = len(readPairs.keys())
 total_truePairs = len(truePairs.keys()) # truePairs = {(R1,R2): (R1 seq, R2 seq)}
 
-correct = 0
-incorrect = 0
-miss = 0
 for pair in readPairs.keys():
     if pair in truePairs.keys() or (pair[1], pair[0]) in truePairs.keys():
         correct += 1
