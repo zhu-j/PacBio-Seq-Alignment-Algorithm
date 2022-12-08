@@ -1,0 +1,54 @@
+readPairs_200
+total readPairs: 1, total truePairs: 1708
+correct: 0
+incorrect: 0
+miss: 1
+
+
+readPairs_300
+total readPairs: 1, total truePairs: 1708
+correct: 1
+incorrect: 0
+miss: 0
+
+
+readPairs_400
+total readPairs: 1, total truePairs: 1708
+correct: 1
+incorrect: 0
+miss: 0
+
+
+readPairs_500
+total readPairs: 1, total truePairs: 1708
+correct: 1
+incorrect: 0
+miss: 0
+
+
+readPairs_600
+total readPairs: 1, total truePairs: 1708
+correct: 1
+incorrect: 0
+miss: 0
+
+
+readPairs_700
+total readPairs: 1, total truePairs: 1708
+correct: 1
+incorrect: 0
+miss: 0
+
+
+readPairs_800
+total readPairs: 1, total truePairs: 1708
+correct: 1
+incorrect: 0
+miss: 0
+
+
+readPairs_900
+total readPairs: 1, total truePairs: 1708
+correct: 1
+incorrect: 0
+miss: 0

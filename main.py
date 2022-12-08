@@ -92,19 +92,16 @@ incorrect = 0
 total_readPairs = len(readPairs.keys())
 total_truePairs = len(truePairs.keys())  # truePairs = {(R1,R2): (R1 seq, R2 seq)}
 
-for pair in truePairs.keys():
-    if pair in readPairs.keys() or (pair[1], pair[0]) in readPairs.keys():
-        correct += 1
-msg = ("Out of {} true pairs, {} were correct".format(total_truePairs, correct))
-#print(msg)
-
 true = np.unique(list(sum(truePairs.keys())))
 for pair in readPairs.keys():
-    if pair not in truePairs.keys() or (pair[1], pair[0]) not in truePairs.keys():
-        if pair[0] in true or pair[1] in true:
-            incorrect += 1
-        else:
-            miss += 1
+    if pair in truePairs.key():
+        correct += 1
+    else:
+       if pair not in truePairs.keys() or (pair[1], pair[0]) not in truePairs.keys():
+            if pair[0] in true or pair[1] in true:
+                 incorrect += 1
+            else:
+                 miss += 1
 
 with open('sensitivity.txt', 'w') as sens:
     sens.write('miss = ' + str(miss) + '\n')
