@@ -79,7 +79,7 @@ with open('read_same_origin.txt', 'wb') as file:
 
 
 
-"""# evaluate how many read pairs were correctly found
+# evaluate how many read pairs were correctly found
 with open("true_pairs.txt", "rb") as data:
     truePairs = ast.literal_eval(pk.load(data))
     truePairs = pk.load(data)
@@ -94,7 +94,7 @@ total_truePairs = len(truePairs.keys())  # truePairs = {(R1,R2): (R1 seq, R2 seq
 
 true = np.unique(list(sum(truePairs.keys())))
 for pair in readPairs.keys():
-    if pair in truePairs.key():
+    if pair in truePairs.key() or (pair[1], pair[0]) in truePairs.keys():
         correct += 1
     else:
        if pair not in truePairs.keys() or (pair[1], pair[0]) not in truePairs.keys():
