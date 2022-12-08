@@ -70,7 +70,7 @@ for key,value in dict_reads.items():
             diff_start = abs(int(v[0]) - int(search_region[0]))
             diff_end = abs(int(v[1]) - int(search_region[1]))
             mid_length = math.ceil((int(search_region[1]) - int(search_region[0]))/2)
-            if (diff_start + diff_end <= mid_length): #need fixing
+            if (diff_start + diff_end <= mid_length):
                 (i,j) = (read_i, k)
                 #read_pairs.append((i,j))
                 true_pairs[(key[0], k[0])] = (key[1], k[1]) #store true pairs in a dictionary where key is (read1, read2) and value is (read1_seq, read2_seq)

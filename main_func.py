@@ -27,7 +27,7 @@ def main(k, name):
         R1R2_align = banded_needleman_wunsch(read1, read2, X, gap_penalty, match_score, mismatch_score)
         R2R1_align = banded_needleman_wunsch(read2, read1, X, gap_penalty, match_score, mismatch_score)
         # for overlap over 50% of the longer read sequence, we consider as predicted true read pair
-        overlap_threshold = 0.5 * max(L1, L2)
+        overlap_threshold = 0.5 * min(L1, L2)
         if max(R1R2_align, R2R1_align) > overlap_threshold:
             readPairs[pair] = (read1, read2)
         i+=1

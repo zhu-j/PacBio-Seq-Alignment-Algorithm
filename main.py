@@ -22,6 +22,7 @@ kmerCountTable = pk.loads(data)
 start = time.time()
 #3: For all read pairs with common-kmer counts > some threshold, we perform alignment
 readPairs = {}
+counter = 0
 for pair in kmerCountTable.keys():
     read1 = R[pair[0]]
     read2 = R[pair[1]]
@@ -33,24 +34,36 @@ for pair in kmerCountTable.keys():
     gap_penalty = -1
     match_score = +1
     mismatch_score = -1
+    counter+=1
     R1R2_align = banded_needleman_wunsch(read1, read2, X, gap_penalty, match_score, mismatch_score)
     R2R1_align = banded_needleman_wunsch(read2, read1, X, gap_penalty, match_score, mismatch_score)
     # for overlap over 50% of the longer read sequence, we consider as this pair as coming from same region in genome
     overlap_threshold = 0.5 * min(L1, L2)
     if max(R1R2_align, R2R1_align) > overlap_threshold:
         readPairs[pair] = (read1, read2)
-    print("one pass")
+        #print(pair)
+    #print("one pass")
 
 readID_pairs = list(readPairs.keys())
 readSeq_pairs = list(readPairs.values())
-print("sequencing reads of the same origin: ", readSeq_pairs)
+#print("sequencing reads of the same origin: ", readSeq_pairs)
 end = time.time()
 duration = end - start
+
+start_file = time.time()
+with open('read_p.txt', 'wb') as output:
+    pk.dump(readPairs, output, protocol=pk.HIGHEST_PROTOCOL)
+end_file = time.time()
+file_duration = end_file - start_file
 with open('duration2.txt', 'w') as f:
     f.write('running_time = ' + str(duration) + '\n')
     f.write('start = ' + str(start) + '\n')
     f.write('end = ' + str(end) + '\n')
-print(duration)
+    f.write('file_write_time = ' + str(file_duration) + '\n')
+    f.write('start of file write = ' + str(start_file) + '\n')
+    f.write('end of file write= ' + str(end_file) + '\n')
+
+#print(duration)
 # store the read pairs found by alignment
 with open('read_id.txt', 'wb') as out_file:
     pk.dump(readID_pairs, out_file, protocol=pk.HIGHEST_PROTOCOL)
@@ -58,17 +71,18 @@ with open('read_id.txt', 'wb') as out_file:
 with open('read_seq_value.txt', 'wb') as o:
     pk.dump(readID_pairs, o, protocol=pk.HIGHEST_PROTOCOL)
 
-with open('read_p.txt', 'wb') as output:
-    pk.dump(readPairs, output, protocol=pk.HIGHEST_PROTOCOL)
-
 with open('read_pairs.txt', 'wb') as file:
     file.write(pk.dumps(readPairs, protocol=pk.HIGHEST_PROTOCOL))
+
+with open('read_same_origin.txt', 'wb') as file:
+    file.write(pk.dumps(readSeq_pairs, protocol=pk.HIGHEST_PROTOCOL))
 
 
 
 """# evaluate how many read pairs were correctly found
 with open("true_pairs.txt", "rb") as data:
     truePairs = ast.literal_eval(pk.load(data))
+    truePairs = pk.load(data)
     #truePairs =
     #print(truePairs)
 
@@ -79,7 +93,7 @@ total_readPairs = len(readPairs.keys())
 total_truePairs = len(truePairs.keys())  # truePairs = {(R1,R2): (R1 seq, R2 seq)}
 
 for pair in truePairs.keys():
-    if pair in readPairs.keys() or (pair[1], pair[0]) in readPairs:
+    if pair in readPairs.keys() or (pair[1], pair[0]) in readPairs.keys():
         correct += 1
 msg = ("Out of {} true pairs, {} were correct".format(total_truePairs, correct))
 #print(msg)
