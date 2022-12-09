@@ -78,39 +78,6 @@ with open('read_same_origin.txt', 'wb') as file:
     file.write(pk.dumps(readSeq_pairs, protocol=pk.HIGHEST_PROTOCOL))
 
 
-"""
-# evaluate how many read pairs were correctly found
-with open("true_pairs.txt", "rb") as data:
-    truePairs = ast.literal_eval(pk.load(data))
-    truePairs = pk.load(data)
-    #truePairs =
-    #print(truePairs)
-
-miss = 0
-correct = 0
-incorrect = 0
-total_readPairs = len(readPairs.keys())
-total_truePairs = len(truePairs.keys())  # truePairs = {(R1,R2): (R1 seq, R2 seq)}
-
-true = np.unique(list(sum(truePairs.keys())))
-for pair in readPairs.keys():
-    if pair in truePairs.key() or (pair[1], pair[0]) in truePairs.keys():
-        correct += 1
-    else:
-       if pair not in truePairs.keys() or (pair[1], pair[0]) not in truePairs.keys():
-            if pair[0] in true or pair[1] in true:
-                 incorrect += 1
-            else:
-                 miss += 1
-
-with open('sensitivity.txt', 'w') as sens:
-    sens.write('miss = ' + str(miss) + '\n')
-    sens.write('incorrect = ' + str(incorrect) + '\n')
-    sens.write('correct = ' + str(correct) + '\n')
-    sens.write('total pairs = ' + str(total_readPairs) + '\n')
-    sens.write('total true pairs = ' + str(total_truePairs) + '\n')
-    sens.write(str(msg) + '\n')"""
-
 
 
 
